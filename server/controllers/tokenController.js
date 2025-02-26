@@ -1,8 +1,15 @@
 const config = require('../config/onchain');
-const Web3 = require("web3");
+const { Web3 } = require("web3");
 const web3 = new Web3();
+const ethers = require('ethers');
+const asyncErrorHandler = require("../middlewares/helpers/asyncErrorHandler");
+const ErrorHandler = require("../utils/errorHandler");
 
 const {Erc20Abi} = require('../abi/erc20');
+
+BigInt.prototype.toJSON = function () {
+    return this.toString();
+};
 
 web3.setProvider(
     new web3.providers.HttpProvider(
@@ -35,7 +42,7 @@ const getErc20Balance = async (contract, userAddress) => {
     let decimals = await contract.methods.decimals().call();
     let token = await contract.methods.balanceOf(userAddress).call();
 
-    return token / 10 ** decimals;
+    return ethers.utils.formatUnits(token.toString(), decimals);
 }
 
 exports.fetchTokenBalance = asyncErrorHandler(async (request, response, next) => {

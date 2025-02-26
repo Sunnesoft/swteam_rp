@@ -7,10 +7,10 @@ const paymentRoute = require("./paymentRoute");
 const productRoute = require("./productRoute");
 const walletRoute = require("./walletRoute");
 
-router.route("/user", userRoute);
-router.route("/order", orderRoute);
-router.route("/payment", paymentRoute);
-router.route("/product", productRoute);
-router.route("/wallet", walletRoute);
+router.use("/user", userRoute);
+router.use("/order", orderRoute);
+router.use("/payment", paymentRoute);
+router.use("/product", productRoute);
+router.use("/wallet", walletRoute);
 
 module.exports = router;
